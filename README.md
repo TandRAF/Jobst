@@ -53,3 +53,4 @@ export default tseslint.config({
 })
 ```
 >>>>>>> master
+![Use Case Diagram](http://www.plantuml.com/plantuml/png/SoWkIImgAStDuU9oICp9J4bIAz3CoKZDAybCJYhEBmKGG3fIxCEW26cSoa2TUG00)

@@ -9,10 +9,13 @@ namespace server.Model
         
         public string Surname { get; set; } = string.Empty;
         public string Email {get; set;} = string.Empty;
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Summary{get; set;} = string.Empty;
         public List<Education> Educations {get; set;} = new List<Education>();
         public List<WorkExperience> WorkExperiences {get; set;} = new List<WorkExperience>();
         public List<Language> Languages {get; set;} = new List<Language>();
+        public int UserProfileId {get; set;}
+        public UserProfile? UserProfile {get; set;}
     }
 }
+

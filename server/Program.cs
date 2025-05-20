@@ -26,6 +26,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<ICvRepository, CvRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -17,8 +17,8 @@ namespace server.Data
         public DbSet<Education> Education {get;set;}
         public DbSet<UserProfile> UserProfile {get;set;}
         public DbSet<CompanyProfile> CompanyProfile {get;set;}
-        public DbSet<WorkExperience> WorkExperiences {get;set;}
-        public DbSet<Language> Languages { get; set; }
+        public DbSet<WorkExperience> WorkExperience {get;set;}
+        public DbSet<Language> Language { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

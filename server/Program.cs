@@ -28,6 +28,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<ICvRepository, CvRepository>();
+builder.Services.AddScoped<IEducationRepository, EducationRepositroy>();
+builder.Services.AddScoped<IWorkExperienceRepository, WorkExperienceRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

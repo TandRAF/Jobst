@@ -8,6 +8,7 @@ using server.Data;
 using server.Interfaces;
 using server.Services;
 using server.Model;
+using server.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -25,6 +26,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ICvRepository, CvRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

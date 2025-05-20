@@ -15,7 +15,7 @@ namespace server.Dtos.CV
         public string Summary { get; set; } = string.Empty;
         public List<EducationDto> Educations { get; set; } = new List<EducationDto>();
         public List<WorkExperienceDto> WorkExperiences { get; set; } = new List<WorkExperienceDto>();
-        public List<LanguageDto> Language { get; set; } = new List<LanguageDto>();
+        public List<LanguageDto> Languages { get; set; } = new List<LanguageDto>();
 
     }
 }

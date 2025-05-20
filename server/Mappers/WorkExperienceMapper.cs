@@ -18,7 +18,7 @@ namespace server.Mappers
                 EndDate = workExperience.EndDate
             };
         }
-        public static WorkExperience FromRequestToWorkExperience(this WorkExperienceDto workExperienceDto,int id)
+        public static WorkExperience FromRequestToWorkExperience(this RequestWorkExperienceDto workExperienceDto,int id)
         {
             return new WorkExperience
             {

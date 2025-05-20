@@ -18,6 +18,10 @@ namespace server.Repositories
             return await _context.UserProfile
             .Include(up => up.Cvs)
                 .ThenInclude(cv => cv.Educations)
+            .Include(up => up.Cvs)
+                .ThenInclude(cv => cv.WorkExperiences)
+            .Include(up => up.Cvs)
+                .ThenInclude(cv => cv.Languages)
             .FirstOrDefaultAsync(up => up.UserId == id);
         }
     }

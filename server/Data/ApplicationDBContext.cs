@@ -17,8 +17,8 @@ namespace server.Data
         public DbSet<Education> Education {get;set;}
         public DbSet<UserProfile> UserProfile {get;set;}
         public DbSet<CompanyProfile> CompanyProfile {get;set;}
-        public DbSet<WorkExperience> WorkExperiences {get;set;}
-        public DbSet<Language> Languages { get; set; }
+        public DbSet<WorkExperience> WorkExperience {get;set;}
+        public DbSet<Language> Language { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -41,22 +41,36 @@ namespace server.Data
             builder.Entity<UserProfile>()
                 .HasOne(u => u.User)
                 .WithMany()
-                .HasForeignKey(u => u.UserId) 
+                .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<CV>()
                 .HasOne(cv => cv.UserProfile)
                 .WithMany(up => up.Cvs)
                 .HasForeignKey(cv => cv.UserProfileId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserProfile>()
                 .HasMany(up => up.Cvs)
                 .WithOne(cv => cv.UserProfile)
                 .HasForeignKey(cv => cv.UserProfileId);
             builder.Entity<CompanyProfile>()
-                .HasOne(c => c.User) 
-                .WithMany() 
-                .HasForeignKey(c => c.UserId) 
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<CV>()
+                .HasMany(c => c.Educations)
+                .WithOne(e => e.Cv)
+                .HasForeignKey(e => e.CvId);
+
+            builder.Entity<CV>()
+                .HasMany(c => c.WorkExperiences)
+                .WithOne(we => we.Cv)
+                .HasForeignKey(we => we.CvId);
+
+            builder.Entity<CV>()
+                .HasMany(c => c.Languages)
+                .WithOne(l => l.Cv)
+                .HasForeignKey(l => l.CvId);
         }
     }
 }

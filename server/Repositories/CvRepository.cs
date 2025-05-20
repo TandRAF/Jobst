@@ -17,7 +17,9 @@ namespace server.Repositories
         }
         public async Task<List<CV>> GetAllAsync()
         {
-            return await _context.CV.Include(Edu => Edu.Educations).ToListAsync();
+            return await _context.CV.Include(Edu => Edu.Educations)
+            .Include(We => We.WorkExperiences)
+            .Include(Lan => Lan.Languages).ToListAsync();
         }
         public async Task<CV?> GetByIdAsync(int id)
         {

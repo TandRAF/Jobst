@@ -51,13 +51,13 @@ namespace server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "feb134e0-310a-4630-9895-35b6a71c143d",
+                            Id = "a6ca1004-75a0-4949-9ce4-b717b64f9f56",
                             Name = "Company",
                             NormalizedName = "COMPANY"
                         },
                         new
                         {
-                            Id = "fc6fe964-6651-4070-a581-ff2c61511850",
+                            Id = "46140803-8956-4f32-9b71-63bd7667940e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -297,11 +297,11 @@ namespace server.Migrations
                     b.Property<int>("CvId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Level")
+                    b.Property<string>("LanguageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Level")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -309,7 +309,7 @@ namespace server.Migrations
 
                     b.HasIndex("CvId");
 
-                    b.ToTable("Languages");
+                    b.ToTable("Language");
                 });
 
             modelBuilder.Entity("server.Model.UserBase", b =>
@@ -431,7 +431,7 @@ namespace server.Migrations
 
                     b.HasIndex("CvId");
 
-                    b.ToTable("WorkExperiences");
+                    b.ToTable("WorkExperience");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -61,6 +61,7 @@ namespace server.Controllers
             }
             return Ok(cvModel);
         }
+        [Authorize(Roles = "User")]
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)

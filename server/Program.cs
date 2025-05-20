@@ -30,6 +30,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<ICvRepository, CvRepository>();
 builder.Services.AddScoped<IEducationRepository, EducationRepositroy>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<IWorkExperienceRepository, WorkExperienceRepository>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

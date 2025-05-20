@@ -12,10 +12,11 @@ namespace server.Mappers
             return new LanguageDto
             {
                 Id = language.Id,
-                LanguageName = language.LanguageName
+                LanguageName = language.LanguageName,
+                 Level = language.Level,
             };
         }
-        public static Language FromRequesteToLangauge(this LanguageDto languageDto,int id)
+        public static Language FromRequesteToLangauge(this RequestLanguageDto languageDto,int id)
         {
             return new Language
             {

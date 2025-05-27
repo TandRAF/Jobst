@@ -1,7 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-export const Header = () => {
+export const Header:React.FC = ()=> {
   return (
-    <div>header</div>
+  <header>
+    <Link to="/"></Link>
+    <nav>
+      <Link to="/login">Login</Link>
+    </nav>
+    
+  </header>
   )
 }

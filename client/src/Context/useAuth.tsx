@@ -9,7 +9,7 @@ import axios from "axios";
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
-  registerUser: (email: string, username: string, password: string) => void;
+  registerUser: (email: string, username: string,role:string, password: string) => void;
   loginUser: (username: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
@@ -39,14 +39,16 @@ export const UserProvider = ({ children }: Props) => {
 const registerUser = async (
     email: string,
     username: string,
+    role:string,
     password: string
   ) => {
-    await registerAPI(email, username, password)
+    await registerAPI(email, username, role, password)
       .then((res) => {
         if (res) {
           localStorage.setItem("token", res?.data.token);
           const userObj = {
             userName: res?.data.userName,
+            role:res?.data.role,
             email: res?.data.email,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
@@ -66,6 +68,7 @@ const registerUser = async (
           localStorage.setItem("token", res?.data.token);
           const userObj = {
             userName: res?.data.userName,
+            role:res?.data.role,
             email: res?.data.email,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
@@ -92,8 +95,7 @@ const registerUser = async (
 
   return (
     <UserContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
-    >
+      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}>
       {isReady ? children : null}
     </UserContext.Provider>
   );

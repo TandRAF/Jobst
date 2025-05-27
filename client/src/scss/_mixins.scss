@@ -1,0 +1,14 @@
+@import '_variables.scss';
+
+@mixin font($size, $color, $weight){
+    font-family: $main-font;
+    color: $color;
+    font-weight: map-get($font-weight-map, $weight);
+    font-size: $size;
+    line-height: 150%;
+}
+@mixin button-hero-section{
+    padding: 15px 30px;
+    @include font(24px, $white, "Medium");
+    background-color: $blue;
+}

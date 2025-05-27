@@ -1,24 +1,26 @@
 import React from "react";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { useAuth } from "../../Context/useAuth";
 import { useForm } from "react-hook-form";
 
-type Props = {};
 
 type RegisterFormsInputs = {
     email:string;
     username: string;
+    role: string;
     password: string;
 };
 
 const validation = Yup.object().shape({
-    email: Yup.string().required("Email is required"),
-    username: Yup.string().required("Username is required"),
-    password: Yup.string().required("Password is required"),
+  email: Yup.string().required("Email is required"),
+  userName: Yup.string().required("Username is required"),
+  role: Yup.string().required("Role is required"),
+  password: Yup.string().required("Password is required"),
 });
 
-const Register = (props: Props) => {
+
+const Register = () => {
   const { registerUser } = useAuth();
   const {
     register,
@@ -26,23 +28,21 @@ const Register = (props: Props) => {
     formState: { errors },
   } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
 
+
   const handleRegister = (form: RegisterFormsInputs) => {
-    registerUser(form.email, form.username, form.password);
+    registerUser(form.email, form.username,form.role, form.password);
   };
   return (
     <section >
-      <div >
-        <div >
-          <div >
             <h1 >
               Sign in to your account
             </h1>
             <form onSubmit={handleSubmit(handleRegister)}>
-              <div>
                 <label htmlFor="email">
                 </label>
                 Email
-                <input type="text" id="email"
+                <input
+                 type="text" id="email"
                   placeholder="Email"
                   {...register("email")}
                 />
@@ -51,15 +51,12 @@ const Register = (props: Props) => {
                 ) : (
                   ""
                 )}
-              </div>
-              <div>
-                <label
-                  htmlFor="username"
-                >
+                <label htmlFor="username">
                   Username
                 </label>
                 <input
                   type="text"
+                  name="UserName"
                   id="username"
                   placeholder="Username"
                   {...register("username")}
@@ -69,12 +66,8 @@ const Register = (props: Props) => {
                 ) : (
                   ""
                 )}
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                >
-                  Password
+                <label htmlFor="password">
+                  Passwcord
                 </label>
                 <input
                   type="password"
@@ -87,14 +80,15 @@ const Register = (props: Props) => {
                 ) : (
                   ""
                 )}
-              </div>
-              <div >
-                <a
-                  href="#"
+                <select name="select" id=""
+                 {...register("role")}
                 >
+                  <option value="User">User</option>
+                  <option value="Company">Company</option>
+                </select>
+                <a href="#">
                   Forgot password?
                 </a>
-              </div>
               <button
                 type="submit"
               >
@@ -109,9 +103,6 @@ const Register = (props: Props) => {
                 </a>
               </p>
             </form>
-          </div>
-        </div>
-      </div>
     </section>
   );
 };

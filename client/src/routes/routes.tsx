@@ -4,6 +4,7 @@ import { HomePage } from "../pages/HomePage/HomePage";
 import Register from "../componets/Auth/Register/Register";
 import { CreateCvPage } from "../pages/CreateCvPage/CreateCvPage";
 import Login from"../componets/Auth/Login/Login"
+import { ProtectedRoute } from "./protectedRoute";
 
 export const router = createBrowserRouter([
     {
@@ -16,7 +17,11 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/create-cv/:cvId/:formId",
-                element: <CreateCvPage/>
+                element: 
+                <ProtectedRoute>
+                    <CreateCvPage/>
+                </ProtectedRoute>
+                    
             },
              {
                 path:"/register",

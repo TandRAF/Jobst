@@ -8,7 +8,9 @@ export const Header:React.FC = ()=> {
   return isLoggedIn()? 
   (
     <header>
-    <Link to="/"></Link>
+    <Link to="/">
+    
+    </Link>
     <nav>
       <Link to="/jobOffers">Login</Link>
        <Link to="/yourCv">Login</Link>

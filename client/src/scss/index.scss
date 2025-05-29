@@ -9,7 +9,6 @@ html{
 }
 
 body{
-    overflow-x: hidden;
     padding: 0;
     margin: 0;
     display: flex;
@@ -19,6 +18,7 @@ body{
     align-content: center;
     margin: 32px auto;
     width: calc(100% - 400px);
+    background-color: $bg-color;
 }
 #root{
     width: 100%;
@@ -70,6 +70,7 @@ button{
     border-radius: 5px;
     height: fit-content;
     line-height: 100%;
+    cursor: pointer;
 }
 .flex-column{
     display: flex;

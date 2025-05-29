@@ -51,13 +51,13 @@ namespace server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6ca1004-75a0-4949-9ce4-b717b64f9f56",
+                            Id = "2f6825e2-ae27-4da0-97f5-ccc8d72765c4",
                             Name = "Company",
                             NormalizedName = "COMPANY"
                         },
                         new
                         {
-                            Id = "46140803-8956-4f32-9b71-63bd7667940e",
+                            Id = "37b28a83-d860-4b62-8a9c-abfd373bd381",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -320,6 +320,9 @@ namespace server.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CompanyProfileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -345,9 +348,6 @@ namespace server.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -356,6 +356,10 @@ namespace server.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -367,7 +371,12 @@ namespace server.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int?>("UserProfileId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyProfileId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -376,6 +385,8 @@ namespace server.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -533,6 +544,21 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.Navigation("Cv");
+                });
+
+            modelBuilder.Entity("server.Model.UserBase", b =>
+                {
+                    b.HasOne("server.Model.CompanyProfile", "CompanyProfile")
+                        .WithMany()
+                        .HasForeignKey("CompanyProfileId");
+
+                    b.HasOne("server.Model.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileId");
+
+                    b.Navigation("CompanyProfile");
+
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("server.Model.UserProfile", b =>

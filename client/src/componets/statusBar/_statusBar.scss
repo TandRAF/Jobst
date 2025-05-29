@@ -1,0 +1,54 @@
+@import "../../scss/index.scss";
+.status-bar{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 70%;
+    gap: 10px;
+    align-items: center;
+    align-content: center;
+    .Icon{
+        border-radius: 50%;
+        display: inline;
+        width: 60px;
+        min-width: 60px;
+        height: 60px;
+        background-color: $block-color;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            border: solid 1px $blue;
+            fill:$blue
+        }
+        svg{
+            transition: all 0.5 ease-out;
+        }
+        &.active{
+            background-color: $blue;
+            svg{
+                path:nth-child(1){
+                    fill: $block-color;
+                }
+                 path:nth-child(2){
+                    fill: #99C3FF;
+                }
+                path:nth-child(3){
+                    fill: #99C3FF;
+                }
+            }
+        }
+    }
+    span{
+        width: 50%;
+        min-width: 16px;
+        height: 3px;
+        background-color: $block-color;
+        &.active{
+            background-color: $blue;
+        }
+    }
+}
+
+

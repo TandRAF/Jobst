@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace server.Repositories
 {
-    public class UserProfileRepository:IUserProfileRepository
+    public class UserProfileRepository : IUserProfileRepository
     {
         private readonly ApplicationDBContext _context;
-        public UserProfileRepository(ApplicationDBContext context){
+        public UserProfileRepository(ApplicationDBContext context)
+        {
             _context = context;
         }
         public async Task<UserProfile?> GetByIdAsync(string id)

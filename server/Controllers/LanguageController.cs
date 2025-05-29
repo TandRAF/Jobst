@@ -8,9 +8,11 @@ using server.Mappers;
 
 namespace server.Controllers
 {
-    public class LanguageController:ControllerBase
+    [Route("api/Language")]
+    [ApiController]
+    public class LanguageController : ControllerBase
     {
-        
+
         private readonly ILanguageRepository _lnRepo;
         private readonly ICvRepository _cvRepo;
         public LanguageController(ILanguageRepository lnRepo, ICvRepository cvRepo)

@@ -24,7 +24,7 @@ namespace server.Controllers
             _signinManager = signinManager;
             _context = context;
         }
-        [HttpPut("Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto logindto){
             if(!ModelState.IsValid){
                 return BadRequest();
@@ -36,7 +36,7 @@ namespace server.Controllers
             return Ok(new NewUserDto{
                 UserName = user.UserName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
+                Role = user.Role,
                 Token = await _tokenService.CreateToken(user)
             });
         }
@@ -47,23 +47,18 @@ public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-
-        // Create a new UserBase (IdentityUser)
         var appUser = new UserBase
         {
             UserName = registerDto.UserName,
             Email = registerDto.Email,
+            Role = registerDto.Role
         };
-
-        // Create the user with the password provided
         var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
         if (createdUser.Succeeded)
         {
-            // Assign role based on the input from the registration form
-            var role = registerDto.Role; // Role can be "User" or "Company"
+            var role = registerDto.Role;
 
-            // Check if the role is valid
             if (role != "User" && role != "Company")
             {
                 return BadRequest("Invalid role selected.");
@@ -73,15 +68,13 @@ public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
 
             if (roleResult.Succeeded)
             {
-                // Optionally, create user profile based on role
                 if (role == "User")
                 {
-                    // Create UserProfile (you can modify this part to suit your needs)
+        
                     _context.UserProfile.Add(new UserProfile { UserId = appUser.Id });
                 }
                 else if (role == "Company")
                 {
-                    // Create CompanyProfile (you can modify this part to suit your needs)
                     _context.CompanyProfile.Add(new CompanyProfile { UserId = appUser.Id });
                 }
 
@@ -91,6 +84,7 @@ public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
                     {
                         UserName = appUser.UserName,
                         Email = appUser.Email,
+                        Role = role,
                         Token = await _tokenService.CreateToken(appUser),
                     }
                 );

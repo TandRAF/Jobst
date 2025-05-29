@@ -1,0 +1,319 @@
+@import '_variables.scss';
+@import '_mixins.scss';
+select[name = role]{
+    -moz-appearance:none !important;
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border: $stroke-color solid 1px;
+    @include font(16px, $stroke-color, "Regular");
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: white;
+    appearance: none;            /* Remove native arrow */
+    -webkit-appearance: none;    /* Safari */     /* Firefox */
+    background-image: url('../../public/Icons/arrowIcon.svg');  /* Your custom icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;        /* Space for the icon */
+    border-radius: 4px;
+        &:focus{
+            stroke: none;
+    }
+}
+option{
+    -moz-appearance:none !important;
+    @include font(16px, $stroke-color, "Regular");
+    padding: 10px 16px;
+    &:checked{
+           @include font(16px, $stroke-color, "Regular");
+            padding: 10px 16px;
+    }
+}
+input{
+    background-color: #ffffff00;
+}
+input[type = password]{
+     -moz-appearance:none !important;
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border: $stroke-color solid 1px;
+    @include font(16px, $stroke-color, "Regular");
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: white;
+    appearance: none;            /* Remove native arrow */
+    -webkit-appearance: none;    /* Safari */     /* Firefox */
+    background-image: url('../../public/Icons/Password.svg');  /* Your custom icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;        /* Space for the icon */
+    border-radius: 4px;
+    &:focus{
+           border: $blue solid 2px; 
+            stroke: none;
+            outline: none;
+    }
+}
+input[type=text]{
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border-radius: 0;
+    border-bottom: $blue solid 3px;
+    border-right: none;
+    border-left: none;
+    border-top:none;
+    @include font(16px, $stroke-color, "Regular");
+    box-sizing: border-box;;
+    outline: none;
+     &:focus{
+            stroke: none;
+    }
+}
+input[type=text]{
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border-radius: 0;
+    border-bottom: $blue solid 3px;
+    border-right: none;
+    border-left: none;
+    border-top:none;
+    @include font(16px, $stroke-color, "Regular");
+    box-sizing: border-box;;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    &:focus{
+            stroke: none;
+    }
+}
+input[name = userName],input[name = email]{
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border: $stroke-color solid 1px;
+    @include font(16px, $stroke-color, "Regular");
+    border-radius: 5px;
+    box-sizing: border-box;;
+    outline: none;
+    &:focus{
+           border: $blue solid 2px; 
+            stroke: none;
+    }
+}
+input[type=tel]{
+    display: flex;
+    flex-direction: row;
+    gap:10px;
+    stroke: none;
+    border: none;
+    @include font(16px, $stroke-color, "Regular");
+    box-sizing: border-box;;
+    outline: none;
+    &:focus{
+            stroke: none;
+    }
+}
+fieldset[name = tel]{
+    display: flex;
+    flex-direction: row;
+    gap:16px;
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border-radius: 0;
+    border-bottom: $blue solid 3px;
+    border-right: none;
+    border-left: none;
+    border-top:none;
+}
+select[name = phonePrefix]{
+    @include font(16px, $font-color, "Regular");
+    background-color: #C2DBFF;
+    padding: 5px 10px;
+    width: fit-content;
+    stroke: none;
+    border: none;
+    box-shadow: none;
+}
+option{
+    border: none;
+    stroke: none;
+    box-shadow: none;
+}
+fieldset{
+      position: relative;
+     display: flex;
+    flex-direction: row;
+    gap:16px;
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border-radius: 0;
+    border: none;
+}
+legend{
+    @include font(18px, $font-color,"Regular");
+}
+fieldset[name = gender]{
+    label{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        align-content: center;
+        @include font(16px, $font-color,"Regular");
+        div{
+            width: 18px;
+            height: 18px;
+        .checker{
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid rgb(255, 255, 255);
+            background-color: #D8D8D8;
+            outline: 1px solid #D8D8D8;
+        }
+        input{
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            z-index: 100;
+            position: absolute;
+            opacity: 0;
+            width: 18px;
+            height: 18px;
+            }
+        }
+    }
+    input:checked + .checker{
+            background-color: $blue;
+            outline: 1px solid $blue;
+    }
+}
+fieldset[name = language]{
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+    margin: 0;
+    .level-container{
+        padding-top: 8px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+    }
+    label{
+        display: flex;
+        align-items: center;
+        align-content: center;
+        @include font(16px, $font-color,"Regular");
+        width: 100%;
+        input{
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            z-index: 100;
+            position: absolute;
+            opacity: 0;
+            height: 20px;
+            width: 100%;
+             @include font(16px, $font-color,"Regular");
+            }
+            .checker{
+                display: flex;
+                align-items: center;
+                align-content: center;
+                text-align: center;
+                justify-content: center;
+                @include font(16px, $font-color,"Regular");
+                padding:10px 20px;
+                width: 100%;
+                background-color: #d8d8d84b;
+            }
+            input:checked + .checker{
+                background-color: $blue;
+                  @include font(16px, white,"Bold");
+            }
+        
+    }
+}
+input[type = password]{
+     -moz-appearance:none !important;
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border: $stroke-color solid 1px;
+    @include font(16px, $stroke-color, "Regular");
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: white;
+    appearance: none;            /* Remove native arrow */
+    -webkit-appearance: none;    /* Safari */     /* Firefox */
+    background-image: url('../../public/Icons/Password.svg');  /* Your custom icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;        /* Space for the icon */
+    border-radius: 4px;
+}
+input[type = date]{
+     -moz-appearance:none !important;
+    appearance: none;               // Firefox
+     -webkit-appearance: none; 
+    width: 100%;
+    padding: 10px 16px;
+    stroke: none;
+    border-left: none;
+    border-right: none;
+     border-top: none;
+    border-bottom: $blue solid 3px;
+    @include font(16px, $stroke-color, "Regular");
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    appearance: none;            /* Remove native arrow */
+    -webkit-appearance: none;    /* Safari */     /* Firefox */
+    background-image: url('../../public/Icons/CalendarIcon.svg');  /* Your custom icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;  
+    cursor: pointer;   
+    &:focus{
+    stroke: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    outline: none;
+    border-bottom: $blue solid 3px;
+    }
+}
+::-webkit-calendar-picker-indicator{
+    opacity: 0;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+label{
+     @include font(18px, $font-color,"Regular");
+}
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+}
+textarea{
+    resize: none;
+    height: 100px;
+    border: none;
+    stroke: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.025);
+     @include font(16px, $font-color,"Regular");
+    text-align: start;
+}
+button[type=submit]{
+    @include button-input();
+}

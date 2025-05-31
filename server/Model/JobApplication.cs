@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace server.Model
 {
     public class JobApplication
     {
         public int Id { get; set; }
-        public int CompanyId { get; set; }
-        public Company Company {get; set;} = new Company();
-        public List<CV> AppliedCvs {get; set;} = new List<CV>();
+        public int CompanyProfileId { get; set; }
+        public CompanyProfile CompanyProfile { get; set; }
+        public List<CV> AppliedCvs { get; set; } = new List<CV>();
     }
 }

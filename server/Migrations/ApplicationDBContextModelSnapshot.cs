@@ -51,13 +51,13 @@ namespace server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6ca1004-75a0-4949-9ce4-b717b64f9f56",
+                            Id = "d47c55ea-bbf4-412b-b8aa-7b6460086b34",
                             Name = "Company",
                             NormalizedName = "COMPANY"
                         },
                         new
                         {
-                            Id = "46140803-8956-4f32-9b71-63bd7667940e",
+                            Id = "2d55f79c-e6ce-4d25-8176-48bf21bf577a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -181,6 +181,9 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("JobApplicationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -201,6 +204,8 @@ namespace server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JobApplicationId");
 
                     b.HasIndex("UserProfileId");
 
@@ -261,6 +266,29 @@ namespace server.Migrations
                     b.ToTable("Education");
                 });
 
+            modelBuilder.Entity("server.Model.JobApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompanyProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("JobOfferId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyProfileId");
+
+                    b.HasIndex("JobOfferId");
+
+                    b.ToTable("JobApplication");
+                });
+
             modelBuilder.Entity("server.Model.JobOffer", b =>
                 {
                     b.Property<int>("Id")
@@ -269,19 +297,36 @@ namespace server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CompanyId")
+                    b.Property<string>("CompanyImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CompanyProfileId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CompanyProfileId")
+                    b.Property<string>("CompanyTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TagId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Tags")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyProfileId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("JobOffer");
                 });
@@ -310,6 +355,23 @@ namespace server.Migrations
                     b.HasIndex("CvId");
 
                     b.ToTable("Language");
+                });
+
+            modelBuilder.Entity("server.Model.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("server.Model.UserBase", b =>
@@ -487,6 +549,10 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Model.CV", b =>
                 {
+                    b.HasOne("server.Model.JobApplication", null)
+                        .WithMany("AppliedCvs")
+                        .HasForeignKey("JobApplicationId");
+
                     b.HasOne("server.Model.UserProfile", "UserProfile")
                         .WithMany("Cvs")
                         .HasForeignKey("UserProfileId")
@@ -517,11 +583,34 @@ namespace server.Migrations
                     b.Navigation("Cv");
                 });
 
+            modelBuilder.Entity("server.Model.JobApplication", b =>
+                {
+                    b.HasOne("server.Model.CompanyProfile", "CompanyProfile")
+                        .WithMany()
+                        .HasForeignKey("CompanyProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Model.JobOffer", null)
+                        .WithMany("JobApplications")
+                        .HasForeignKey("JobOfferId");
+
+                    b.Navigation("CompanyProfile");
+                });
+
             modelBuilder.Entity("server.Model.JobOffer", b =>
                 {
-                    b.HasOne("server.Model.CompanyProfile", null)
+                    b.HasOne("server.Model.CompanyProfile", "CompanyProfile")
                         .WithMany("JobOffers")
-                        .HasForeignKey("CompanyProfileId");
+                        .HasForeignKey("CompanyProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Model.Tag", null)
+                        .WithMany("JobOffers")
+                        .HasForeignKey("TagId");
+
+                    b.Navigation("CompanyProfile");
                 });
 
             modelBuilder.Entity("server.Model.Language", b =>
@@ -566,6 +655,21 @@ namespace server.Migrations
                 });
 
             modelBuilder.Entity("server.Model.CompanyProfile", b =>
+                {
+                    b.Navigation("JobOffers");
+                });
+
+            modelBuilder.Entity("server.Model.JobApplication", b =>
+                {
+                    b.Navigation("AppliedCvs");
+                });
+
+            modelBuilder.Entity("server.Model.JobOffer", b =>
+                {
+                    b.Navigation("JobApplications");
+                });
+
+            modelBuilder.Entity("server.Model.Tag", b =>
                 {
                     b.Navigation("JobOffers");
                 });

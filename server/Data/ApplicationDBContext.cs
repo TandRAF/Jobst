@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using server.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
 
 namespace server.Data
 {
@@ -19,24 +21,26 @@ namespace server.Data
         public DbSet<CompanyProfile> CompanyProfile {get;set;}
         public DbSet<WorkExperience> WorkExperience {get;set;}
         public DbSet<Language> Language { get; set; }
+        public DbSet<JobOffer> JobOffer { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // Define roles
             List<IdentityRole> roles = new List<IdentityRole>
-    {
-        new IdentityRole
-        {
-            Name = "Company",
-            NormalizedName = "COMPANY"
-        },
-        new IdentityRole
-        {
-            Name = "User",
-            NormalizedName = "USER"
-        }
-    };
+            {
+                new IdentityRole
+                {
+                    Name = "Company",
+                    NormalizedName = "COMPANY"
+                },
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                }
+            };
             builder.Entity<IdentityRole>().HasData(roles);
             builder.Entity<UserProfile>()
                 .HasOne(u => u.User)
@@ -71,6 +75,13 @@ namespace server.Data
                 .HasMany(c => c.Languages)
                 .WithOne(l => l.Cv)
                 .HasForeignKey(l => l.CvId);
+                
+            builder.Entity<JobOffer>()
+                .Property(j => j.Tags)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null)
+                );
         }
     }
 }

@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import { HomePage } from "../pages/HomePage/HomePage";
-import Register from "../componets/Auth/Register/Register";
 import { CreateCvPage } from "../pages/CreateCvPage/CreateCvPage";
-import Login from"../componets/Auth/Login/Login"
+import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { ProtectedRoute } from "./protectedRoute";
 import { FeedPage } from "../pages/FeedPage/FeedPage";
+import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
 
 export const router = createBrowserRouter([
     {
@@ -26,11 +26,11 @@ export const router = createBrowserRouter([
             },
              {
                 path:"/register",
-                element:<Register/>
+                element:<RegisterPage/>
             },
             {
                 path:"/login",
-                element:<Login/>
+                element:<LoginPage/>
             },
             {
                 path:"/jobOffers",

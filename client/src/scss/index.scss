@@ -61,6 +61,7 @@ button{
     outline: none;
     stroke: none;
     border: none;
+    @include button-input();
 }
 .button-hero-section{
     width: 30%;

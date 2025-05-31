@@ -35,7 +35,7 @@ export const CreateLanguage = () => {
       );
       console.log(response, formData);
       if (response.status === 201) {
-        navigate("/"); 
+        navigate("/jobOffers"); 
       }
     } catch (error) {
       console.error("Failed to submit language info:", error);

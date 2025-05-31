@@ -5,6 +5,7 @@ import Register from "../componets/Auth/Register/Register";
 import { CreateCvPage } from "../pages/CreateCvPage/CreateCvPage";
 import Login from"../componets/Auth/Login/Login"
 import { ProtectedRoute } from "./protectedRoute";
+import { FeedPage } from "../pages/FeedPage/FeedPage";
 
 export const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
              {
                 path:"/register",
                 element:<Register/>
+            },
+            {
+                path:"/jobOffers",
+                element:<FeedPage/>
             },
             {
                 path:"/login",

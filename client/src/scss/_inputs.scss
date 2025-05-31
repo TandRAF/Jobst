@@ -316,4 +316,5 @@ textarea{
 }
 button[type=submit]{
     @include button-input();
+    cursor: pointer;
 }

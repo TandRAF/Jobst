@@ -1,0 +1,103 @@
+
+@import "../../scss/index.scss";
+@import "../../scss/variables";
+
+.offer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    font-family: $main-font;
+    width: 18rem;
+    
+    .offer-title-company-tags{
+        width: auto;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 11.5rem;
+        border-radius: 0.625rem;
+        background: #EBF2FD;
+        .date-company{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            align-self: stretch;
+            .date-name-company{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 0.3125rem;
+                .company{
+                    font-weight: 600;
+                }
+            }
+            .logo-company{
+                background-image: url("../../../src/assets/Icons/google-icon.png");
+                width: 2.875rem;
+                height: 3rem;
+            }
+        }
+
+        .offer-title-tags{
+            display: flex;
+            gap: 1rem;
+            flex-direction: column;
+
+            .offer-title{
+            color: $font-color;
+            font-family: $main-font;
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+            }
+
+            .offer-tags{
+                display: flex;
+                align-items: center;
+                align-content: center;
+                gap: 0.625rem;
+                flex-wrap: wrap;
+            }
+
+        }
+    }
+
+    
+    
+
+    .separator{
+        width: 100%;
+        width: 100%;              
+        border-bottom: 5px dashed $blue;
+
+    }
+
+    .chance{
+        display: flex;
+        height: 6rem;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.625rem;
+        background: $blue;
+        .chance-border{
+            display: flex;
+            width: 85%;
+            height: 4.5rem;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.9375rem;
+            border: 5px dashed #FFF;
+        }
+        span{
+            color: #FFF;
+            font-size: 3rem;
+            font-style: normal;
+            font-weight: 800;
+        }
+    }
+}

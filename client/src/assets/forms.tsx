@@ -13,17 +13,17 @@ export const getforms = ()=>[
     },
         {
         index:2,
-        Title:"Add Personal Information",
+        Title:"Add Your Degree",
         Element:<CreateEducation/>
     },
     {
         index:3,
-        Title:"Add Personal Information",
+        Title:"Add Your Work Experience",
         Element:<CreateWork/>
     },
         {
         index:4,
-        Title:"Add Personal Information",
+        Title:"Add Your knowen Languages",
         Element:<CreateLanguage/>
     },
         {

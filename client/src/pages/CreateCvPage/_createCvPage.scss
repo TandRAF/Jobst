@@ -9,7 +9,10 @@
     width: 100vw;
     height: 100vh;
     background-color: $blue;
-    margin: -50px -200px;
+    margin: -102px -200px;
+    h3{
+        text-align: center;
+    }
     .form-status-bar-block{
         display: flex;
         flex-direction: column;

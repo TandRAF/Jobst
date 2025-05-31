@@ -19,6 +19,7 @@ body{
     margin: 32px auto;
     width: calc(100% - 400px);
     background-color: $bg-color;
+    height: fit-content;
 }
 #root{
     width: 100%;

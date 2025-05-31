@@ -40,7 +40,7 @@ export const CreateCv = () => {
     const fullPhoneNumber = `${formData.phonePrefix}${formData.phoneNumber}`;
     const payload = {
       ...formData,
-      phoneNumber: fullPhoneNumber, // send combined phone number
+      phoneNumber: fullPhoneNumber,
     };
 
     try {

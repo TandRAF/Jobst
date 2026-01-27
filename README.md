@@ -21,10 +21,9 @@ Jobst is a modern recruitment platform designed to eliminate the friction in the
 ## Repository Structure
 ```
 Jobst/
+├── assets/           # visula Resurses for Documentation
 ├── client/           # React + TypeScript frontend application
 ├── server/           # .NET Backend API & Logic
-├── Jobst.sln         # Visual Studio Solution file
-└── README.md         # Project documentation
 ```
 ## Getting Started
 ### Prerequisites
@@ -36,16 +35,14 @@ Clone the repository:
 ```Bash
 git clone https://github.com/TandRAF/Jobst.git
 cd Jobst
-Setup the Backend:
 ```
-Setup the Backend
+Setup the Backend:
 ```Bash
 cd server
 dotnet restore
 dotnet run
-Setup the Frontend:
 ```
-Setup the Frontend
+Setup the Frontend:
 ```Bash
 cd ../client
 npm install

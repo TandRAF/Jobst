@@ -1,121 +1,143 @@
-import { createContext, useEffect, useState } from "react";
-import { UserProfile } from "../Models/UserProfileToken";
-import { useNavigate } from "react-router-dom";
-import { loginAPI, registerAPI } from "../services/AuthService";
-import { toast } from "react-toastify";
-import React from "react";
-import axios from "axios";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import { authService } from "../services/AuthService";
+import { getErrorMessages } from "../shared/api/errors";
+import { setUnauthorizedHandler } from "..//shared/api/http";
+import {
+  broadcastAuthEvent,
+  onAuthEvent,
+  sessionState,
+} from "../shared/api/session-state";
+import type {
+  AuthContextType,
+  AuthUser,
+  VerificationPurpose,
+} from "../types/auth";
 
-type UserContextType = {
-  user: UserProfile | null;
-  token: string | null;
-  role :string | null;
-  registerUser: (email: string, username: string,role:string, password: string) => void;
-  loginUser: (username: string, password: string) => void;
-  logout: () => void;
-  isLoggedIn: () => boolean;
-  isUser: () => boolean;
-  isCompany: () => boolean;
-};
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-type Props = { children: React.ReactNode };
-
-const UserContext = createContext<UserContextType>({} as UserContextType);
-
-export const UserProvider = ({ children }: Props) => {
-  const navigate = useNavigate();
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [role, setRole] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [error, setError] = useState<string[] | null>(null);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    if (user && token && role) {
-      setUser(JSON.parse(user));
-      setToken(token);
-      setRole(role);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-    }
-    setIsReady(true);
-    console.log(user);
+    let active = true;
+
+    authService
+      .getSession()
+      .then((session) => {
+        if (active) setUser(session?.user ?? null);
+      })
+      .catch(() => {
+        if (active) setUser(null);
+      })
+      .finally(() => {
+        if (active) setIsLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-const registerUser = async (
-    email: string,
-    username: string,
-    role:string,
-    password: string
-  ) => {
-    await registerAPI(email, username, role, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res?.data.token);
-          localStorage.setItem("role", res?.data.role);
-          const userObj = {
-            userName: res?.data.userName,
-            role:res?.data.role,
-            email: res?.data.email,
-          };
-          console.log(userObj);
-          localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.token!);
-          setUser(userObj!);
-          toast.success("Login Success!");
-          navigate("/");
-        }
-      })
-      .catch((e) => toast.warning("Server error occured"));
-  };
+  useEffect(() => {
+    const removeHandler = setUnauthorizedHandler(() => {
+      sessionState.setCsrfToken(null);
+      setUser(null);
+    });
 
-  const loginUser = async (username: string, password: string) => {
-    await loginAPI(username, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res?.data.token);
-           localStorage.setItem("role", res?.data.role);
-          const userObj = {
-            userName: res?.data.userName,
-            role:res?.data.role,
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.token!);
-          setUser(userObj!);
-          toast.success("Login Success!");
-          navigate("/");
-        }
-      })
-      .catch((e) => toast.warning("Server error occured"));
-  };
+    const removeListener = onAuthEvent((event) => {
+      if (event.type === "logged-out") {
+        sessionState.setCsrfToken(null);
+        setUser(null);
+      }
+      if (event.type === "logged-in") {
+        authService
+          .getSession()
+          .then((session) => setUser(session?.user ?? null))
+          .catch(() => setUser(null));
+      }
+    });
 
-  const isLoggedIn = () => {
-    return !!user;
-  };
+    return () => {
+      removeHandler();
+      removeListener();
+    };
+  }, []);
 
-  const isUser = () => {
-    return role == "User"
-  }
-    const isCompnay = () => {
-    return role == "Company"
-  }
+  const runAction = useCallback(async <T,>(action: () => Promise<T>): Promise<T> => {
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      return await action();
+    } catch (err) {
+      setError(getErrorMessages(err));
+      throw err;
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, []);
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-    setToken("");
-    navigate("/");
-  };
-
-  return (
-    <UserContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser,isUser,isCompnay }}>
-      {isReady ? children : null}
-    </UserContext.Provider>
+  const requestCode = useCallback(
+    (email: string, purpose: VerificationPurpose) =>
+      runAction(() => authService.requestCode(email, purpose)),
+    [runAction],
   );
+
+  const verifyCode = useCallback(
+    (email: string, code: string, purpose: VerificationPurpose) =>
+      runAction(async () => {
+        await authService.verifyCode(email, code, purpose);
+
+        const session = await authService.getSession();
+        if (!session) throw new Error("Sesiunea nu a putut fi creată.");
+
+        setUser(session.user);
+        broadcastAuthEvent({ type: "logged-in" });
+      }),
+    [runAction],
+  );
+
+  const logout = useCallback(async () => {
+    try {
+      await authService.logout();
+    } finally {
+      setUser(null);
+    }
+  }, []);
+
+  const clearError = useCallback(() => setError(null), []);
+
+  const value = useMemo<AuthContextType>(
+    () => ({
+      user,
+      isAuthenticated: !!user,
+      isLoading,
+      isSubmitting,
+      error,
+      requestCode,
+      verifyCode,
+      logout,
+      clearError,
+    }),
+    [user, isLoading, isSubmitting, error, requestCode, verifyCode, logout, clearError],
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => React.useContext(UserContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth trebuie folosit în interiorul unui AuthProvider");
+  return context;
+};

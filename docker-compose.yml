@@ -77,9 +77,9 @@ services:
       - caddy_config:/config
     depends_on:
       - api
-      - analytics-ml
     networks: [internal]
     profiles: [full]
+    command: ["node", "dist/shared/db/migrate.js"]
 
 volumes:
   pgdata:
